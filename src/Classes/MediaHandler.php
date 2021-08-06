@@ -124,9 +124,10 @@ class MediaHandler
      * @param $file Binary file data
      * @param $path Path on disk
      * @param $disk Saving destination
+     * @param $collection Media collection
      * @return array
      */
-    public function generateImageSizes($tempFilePath, $path, $mimeType, $disk): array
+    public function generateImageSizes($tempFilePath, $path, $mimeType, $disk, $collection): array
     {
         $webpEnabled = config('nova-media-field.webp_enabled', true);
         $origName = pathinfo($path, PATHINFO_FILENAME);
@@ -137,7 +138,7 @@ class MediaHandler
         if ($isVideo && !config('nova-media-field.generate_video_thumbnails', false)) return [];
 
         $sizes = [];
-        foreach (NovaMediaLibrary::getImageSizes() as $sizeName => $config) {
+        foreach (NovaMediaLibrary::getImageSizes($collection) as $sizeName => $config) {
             if ($isVideo) {
                 $thumbnailTmpFile = tempnam(sys_get_temp_dir(), 'videothumb-');
                 $video = FFMpeg::create([
@@ -357,7 +358,7 @@ class MediaHandler
         ]);
 
         if ($isImageFile || $isVideoFile) {
-            $generatedImages = $this->generateImageSizes($tmpPath . $tmpName, $fullFilePath, $mimeType, $disk);
+            $generatedImages = $this->generateImageSizes($tmpPath . $tmpName, $fullFilePath, $mimeType, $disk, $collection);
             $model->image_sizes = json_encode($generatedImages);
         }
 
