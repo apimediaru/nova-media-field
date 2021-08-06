@@ -1,5 +1,5 @@
 {
-  "name": "apimediaru/nova-media-field",
+  "name": "optimistdigital/nova-media-field",
   "description": "Laravel Nova field for image/gallery upload and library browsing.",
   "keywords": [
     "laravel",
