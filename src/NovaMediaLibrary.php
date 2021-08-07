@@ -20,8 +20,8 @@ class NovaMediaLibrary extends Tool
 
         if ($collection && array_key_exists($collection, $collections)) {
             $sizes = $collections[$collection]['image_sizes'] ?: [];
-            foreach ($sizes as $size) {
-                $collectionSizes[] = $size;
+            foreach ($sizes as $key => $size) {
+                $collectionSizes[$key] = $size;
             }
         }
 
@@ -29,6 +29,6 @@ class NovaMediaLibrary extends Tool
             'width' => 150,
             'height' => 150,
             'crop' => true,
-        ]], config('nova-media-field.image_sizes', $collectionSizes));
+        ]], config('nova-media-field.image_sizes'), $collectionSizes);
     }
 }
