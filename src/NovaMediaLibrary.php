@@ -19,7 +19,7 @@ class NovaMediaLibrary extends Tool
         $collections = config('nova-media-field.collections') ?: [];
 
         if ($collection && array_key_exists($collection, $collections)) {
-            $sizes = $collections[$collection]['image_sizes'] ?: [];
+            $sizes = $collections[$collection]['image_sizes'] ?? [];
             foreach ($sizes as $key => $size) {
                 $collectionSizes[$key] = $size;
             }
