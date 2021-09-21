@@ -17,11 +17,20 @@ class NovaMediaLibrary extends Tool
     {
         $collectionSizes = [];
         $collections = config('nova-media-field.collections') ?: [];
+        $collectionBuilder = config('nova-media-field.collection_dynamic_builder', false);
 
-        if ($collection && array_key_exists($collection, $collections) && isset($collections[$collection]['image_sizes'])) {
-            $sizes = $collections[$collection]['image_sizes'] ?: [];
-            foreach ($sizes as $key => $size) {
-                $collectionSizes[$key] = $size;
+        if ($collection) {
+            if (array_key_exists($collection, $collections) && isset($collections[$collection]['image_sizes'])) {
+                $sizes = $collections[$collection]['image_sizes'] ?: [];
+                foreach ($sizes as $key => $size) {
+                    $collectionSizes[$key] = $size;
+                }
+            } else if ($collectionBuilder && is_callable($collectionBuilder)) {
+                $generatedConfig = $collectionBuilder($collection) ?: [];
+                $sizes = $generatedConfig['image_sizes'] ?: [];
+                foreach ($sizes as $key => $size) {
+                    $collectionSizes[$key] = $size;
+                }
             }
         }
 
