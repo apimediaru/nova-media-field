@@ -3,6 +3,7 @@
 namespace OptimistDigital\MediaField\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use OptimistDigital\MediaField\Classes\MediaHandler;
 use OptimistDigital\MediaField\Models\Media;
@@ -14,7 +15,8 @@ class RegenerateThumbnails extends Command
      *
      * @var string
      */
-    protected $signature = 'media:regenerate-thumbnails';
+    protected $signature = 'media:regenerate-thumbnails
+                            {--collection=* : Update media with provided collections name}';
 
     /**
      * The console command description.
@@ -40,20 +42,35 @@ class RegenerateThumbnails extends Command
      */
     public function handle()
     {
+
         $Media = config('nova-media-field.media_model');
-        $medias = $Media::all();
+        $collections = $this->option('collection');
+        $medias = [];
+        // Only collections option is implemented now
+        // TODO: implement id (probably)
+        if (!empty($collections) && is_array($collections)) {
+            $medias = $Media::whereIn('collection_name', $collections)->get();
+        } else {
+            $medias = $Media::all();
+        }
 
         /** @var MediaHandler $handler */
         $handler = app()->make(MediaHandler::class);
-
+        $storage = Storage::disk(config('nova-media-field.storage_driver'));
         $updateCount = 0;
         $totalCount = $medias->count();
-        $rootPath = storage_path('app/');
         $this->output->write("\n");
         foreach ($medias as $media) {
-            if ($handler->isReadableImage($rootPath . $media->path . $media->file_name)) {
+            $mediaPath = $media->path . $media->file_name;
+            if ($storage->exists($mediaPath)) {
                 try {
-                    $generatedImages = $handler->generateImageSizes(file_get_contents($rootPath . $media->path . $media->file_name), $media->path . $media->file_name, Storage::disk('local'));
+                    $generatedImages = $handler->generateImageSizes(
+                        file_get_contents($storage->path($mediaPath)),
+                        $mediaPath,
+                        $media->mime_type,
+                        $storage,
+                        $media->collection_name,
+                    );
                     $media->image_sizes = json_encode($generatedImages);
                     $media->save();
                 } catch (\Exception $e) {
@@ -62,6 +79,8 @@ class RegenerateThumbnails extends Command
                     $this->output->write("<error>" . " $msg \n\n" . "</error>");
                     continue;
                 }
+            } else {
+                Log::debug('Not readable: ' . $rootPath . $media->path . $media->file_name);
             }
 
             $updateCount++;
