@@ -2,7 +2,7 @@
   <od-modal ref="isModalOpen" v-if="isModalOpen" :name="'isModalOpen'" :align="'flex justify-end'" width="1315">
     <div slot="container">
       <div class="modal-header flex flex-wrap justify-between mb-6">
-        <h2 class="text-90 font-normal text-xl">
+        <h2 class="text-90 font-normal text-xl mb-2">
           <span v-if="!uploadOnly">{{ __('Browse media library') }}</span>
           <span v-if="uploadOnly">{{ __('Upload media') }}</span>
           {{ currentCollection ? `(${currentCollectionData.label})` : '' }}
