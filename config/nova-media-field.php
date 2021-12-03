@@ -18,7 +18,7 @@ return [
 
     'collections' => [],
 
-    'collections_dynamic' => false,
+    'collection_dynamic_builder' => false,
 
     'storage_driver' => env('MEDIA_LIBRARY_DRIVER', 'public'),
 
