@@ -10,7 +10,7 @@
 
     <div class="form-field">
       <div>
-        <label class="text-80 leading-tight"> File name </label>
+        <label class="text-80 leading-tight">__('File name')</label>
       </div>
       <div class="file-name">
         {{ file.file_name }}
@@ -18,7 +18,7 @@
     </div>
 
     <div class="form-field">
-      <label class="text-80 leading-tight">URL</label>
+      <label class="text-80 leading-tight">__('URL')</label>
       <input
         type="text"
         readonly="readonly"
@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-field">
-      <label class="text-80 leading-tight">Title</label>
+      <label class="text-80 leading-tight">__('Title')</label>
       <input
         type="text"
         class="w-full form-control form-input form-input-bordered"
@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-field">
-      <label class="text-80 leading-tight">Alt text</label>
+      <label class="text-80 leading-tight">__('Alt text')</label>
       <textarea
         v-on:input="onDataUpdate"
         v-model="file.alt"
@@ -49,7 +49,7 @@
 
     <div class="label-field">
       <label class="text-80 leading-tight">
-        <span>Collection:</span>
+        <span>__('Collection'):</span>
         <span>{{ file.collection_name || 'none' }}</span>
       </label>
     </div>
