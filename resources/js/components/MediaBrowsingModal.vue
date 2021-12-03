@@ -10,7 +10,7 @@
 
         <div class="collection-select" v-if="!uploadOnly">
           <div>
-            <span>{{ __('Search')< }}/span>
+            <span>{{ __('Search') }}</span>
             <input
               class="w-full form-control form-input form-input-bordered"
               id="search"
