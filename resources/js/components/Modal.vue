@@ -6,7 +6,7 @@
           <div class="bg-white rounded-lg shadow-lg od-modal" :style="style">
             <div class="p-8"><slot name="container"></slot></div>
 
-            <div class="bg-30 px-6 py-3 flex">
+            <div class="bg-30 px-6 py-3 flex relative">
               <slot name="buttons"></slot>
             </div>
           </div>
