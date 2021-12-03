@@ -3,14 +3,14 @@
     <div slot="container">
       <div class="modal-header flex flex-wrap justify-between mb-6">
         <h2 class="text-90 font-normal text-xl">
-          <span v-if="!uploadOnly">__('Browse media library')</span>
-          <span v-if="uploadOnly">__('Upload media')</span>
+          <span v-if="!uploadOnly">{{ __('Browse media library') }}</span>
+          <span v-if="uploadOnly">{{ __('Upload media') }}</span>
           {{ currentCollection ? `(${currentCollectionData.label})` : '' }}
         </h2>
 
         <div class="collection-select" v-if="!uploadOnly">
           <div>
-            <span>__('Search')</span>
+            <span>{{ __('Search')< }}/span>
             <input
               class="w-full form-control form-input form-input-bordered"
               id="search"
@@ -19,7 +19,7 @@
             />
           </div>
           <div>
-            <span>__('Collection')</span>
+            <span>{{ __('Collection') }}</span>
             <select-control
               :id="collectionField.attribute"
               :dusk="collectionField.attribute"
@@ -44,12 +44,12 @@
       <div :class="`flex mb-6`" id="media-dropzone" class="media-dropzone-wrapper" v-if="!loadingMediaFiles">
         <div class="img-collection" @scroll="scrollEventListener" ref="imgCollectionRef">
           <div class="empty-message" v-if="files.length === 0 && !uploadOnly">
-            <p>__('There are currently no media files in this library')</p>
-            <p>__('Drag and drop files here to upload them')</p>
+            <p>{{ __('There are currently no media files in this library') }}</p>
+            <p>{{ __('Drag and drop files here to upload them') }}</p>
           </div>
 
           <div class="empty-message" v-if="files.length === 0 && uploadOnly">
-            <p>__('Drag and drop files here to upload them')</p>
+            <p>{{ __('Drag and drop files here to upload them') }}</p>
           </div>
 
           <uploaded-file
@@ -77,7 +77,7 @@
               <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
             </svg>
           </p>
-          <p>__('To upload files you can simply drag and drop them in the area or click it to open file browser.')</p>
+          <p>{{ __('To upload files you can simply drag and drop them in the area or click it to open file browser.') }}</p>
           <input
             type="file"
             ref="uploadFiles"
